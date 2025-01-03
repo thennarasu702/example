@@ -1,0 +1,20 @@
+module tb_traffic_light;
+    reg clk;
+    reg rst;
+    wire [2:0] lights;
+    traffic_light uut (
+        .clk(clk),
+        .rst(rst),
+        .lights(lights)
+       );
+    always #5 clk = ~clk;
+    initial begin
+        clk = 0;
+        rst = 1;
+        #10 rst = 0;
+        #1000 $stop;
+    end
+    initial begin
+        $monitor("Time = %0d, Lights = %b", $time, lights);
+    end
+endmodule
