@@ -1,0 +1,32 @@
+module traffic_light(
+    input clk,
+    input rst,
+    output reg [2:0] lights 
+);
+    parameter RED = 3'b100;
+    parameter YELLOW = 3'b010;
+    parameter GREEN = 3'b001;
+    reg [2:0] state, next_state;
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            state<=RED;
+        else
+            state<=next_state;
+    end
+    always @(*) begin
+        case (state)
+            RED:next_state=GREEN;
+            GREEN: next_state=YELLOW;
+            YELLOW: next_state=RED;
+            default: next_state=RED;
+        endcase
+    end
+    always @(*)begin
+        case (state)
+            RED:lights=3'b100;
+            GREEN: lights=3'b001;
+            YELLOW: lights=3'b010;
+            default: lights=3'b100;
+        endcase
+    end
+endmodule
